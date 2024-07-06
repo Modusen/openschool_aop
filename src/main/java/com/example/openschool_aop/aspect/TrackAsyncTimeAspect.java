@@ -37,7 +37,6 @@ public class TrackAsyncTimeAspect {
     @Around("asyncTimeTrackPointcut(trackAsyncTime)")
     public Object asyncTimeTrackAdvice(ProceedingJoinPoint joinPoint, TrackAsyncTime trackAsyncTime) {
         return CompletableFuture.runAsync(() -> {
-            log.info("Асинхронное логгирование");
             try {
                 Map<String, Long> timeValues = TimeTracker.calculateTime(joinPoint);
                 if (aopLoggingFunction.getIsEnabled()) {

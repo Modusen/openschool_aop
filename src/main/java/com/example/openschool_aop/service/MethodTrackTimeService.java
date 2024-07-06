@@ -12,4 +12,6 @@ public interface MethodTrackTimeService {
     Double getAllMethodsAverageTimeTrack();
 
     Double getMethodAverageTimeTrack(String methodName);
+
+    Long getAllMethodsSummaryTimeTrack();
 }

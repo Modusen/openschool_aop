@@ -14,4 +14,7 @@ public interface MethodRepository extends JpaRepository<MethodTimeTrackEntity, L
 
     @Query(value = "SELECT AVG(COMPLETION_TIME) FROM TIME_TRACK WHERE METHOD_NAME = :methodName", nativeQuery = true)
     Double findAvgTimeForMethod(@Param("methodName") String methodName);
+
+    @Query(value = "SELECT SUM(COMPLETION_TIME) FROM TIME_TRACK", nativeQuery = true)
+    Long findAllMethodsSummaryTimeTrack();
 }

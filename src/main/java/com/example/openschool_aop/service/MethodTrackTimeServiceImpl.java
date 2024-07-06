@@ -33,4 +33,9 @@ public class MethodTrackTimeServiceImpl implements MethodTrackTimeService {
         return methodRepository.findAvgTimeForMethod(methodName);
     }
 
+    @Override
+    public Long getAllMethodsSummaryTimeTrack() {
+        return methodRepository.findAllMethodsSummaryTimeTrack();
+    }
+
 }

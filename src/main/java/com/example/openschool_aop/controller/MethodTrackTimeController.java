@@ -23,7 +23,7 @@ public class MethodTrackTimeController {
 
     private final MethodTrackTimeService methodTrackTimeService;
 
-    @Operation(summary = "Get all methods info", tags = "methods tracks")
+    @Operation(summary = "Get all methods info", tags = "methods time tracks")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful",
                     content = {@Content(mediaType = "application/json",
@@ -34,7 +34,7 @@ public class MethodTrackTimeController {
         return methodTrackTimeService.getAllMethodTimeTracks();
     }
 
-    @Operation(summary = "Get average completion time (ms) for all methods", tags = "methods tracks")
+    @Operation(summary = "Get average completion time (ms) for all methods", tags = "methods time tracks")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful")
     })
@@ -43,8 +43,17 @@ public class MethodTrackTimeController {
         return methodTrackTimeService.getAllMethodsAverageTimeTrack();
     }
 
-    @Operation(summary = "Get average completion time (ms) for specified method", tags = "methods tracks")
-    @Parameter(name = "methodName")
+    @Operation(summary = "Get summary completion time (ms) for all methods", tags = "methods time tracks")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful")
+    })
+    @GetMapping("/sum_all")
+    public Long getAllMethodsSummaryTimeTrack() {
+        return methodTrackTimeService.getAllMethodsSummaryTimeTrack();
+    }
+
+    @Operation(summary = "Get average completion time (ms) for specified method", tags = "methods time tracks")
+    @Parameter(name = "methodName", description = "Use info OR infoAsync")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful")
     })
