@@ -33,19 +33,25 @@ public class TrackTimeAspect {
     }
 
     @Around("trackTimePointcut(trackTime)")
-    public void aroundTrackTimeAdvice(ProceedingJoinPoint joinPoint, TrackTime trackTime) throws Throwable {
-        Map<String, Long> timeValues = TimeTracker.calculateTime(joinPoint);
-        if (aopLoggingFunction.getIsEnabled()) {
-            log.info("Метод {} выполнен за {} мс", joinPoint.getSignature().getName(), (timeValues.get("finish") - timeValues.get("start")));
-        }
-        if (repositorySavingFunction.getIsEnabled()) {
-            MethodTimeTrackEntity forSave = new MethodTimeTrackEntity(null,
-                    joinPoint.getSignature().getName(),
-                    joinPoint.getSignature().getDeclaringType().toString().split("openschool_aop\\.")[1],
-                    (timeValues.get("finish") - timeValues.get("start")),
-                    LocalDateTime.now());
-            MethodTimeTrackEntity saved = asyncSaverService.saveEntityInAsyncMode(forSave);
-            log.info("Сохраненная сущность: {}", saved.toString());
+    public void aroundTrackTimeAdvice(ProceedingJoinPoint joinPoint, TrackTime trackTime) {
+        try {
+            Map<String, Long> timeValues = TimeTracker.calculateTime(joinPoint);
+
+            if (aopLoggingFunction.getIsEnabled()) {
+                log.info("Метод {} выполнен за {} мс", joinPoint.getSignature().getName(), (timeValues.get("finish") - timeValues.get("start")));
+            }
+
+            if (repositorySavingFunction.getIsEnabled()) {
+                MethodTimeTrackEntity forSave = new MethodTimeTrackEntity(null,
+                        joinPoint.getSignature().getName(),
+                        joinPoint.getSignature().getDeclaringType().toString().split("openschool_aop\\.")[1],
+                        (timeValues.get("finish") - timeValues.get("start")),
+                        LocalDateTime.now());
+                MethodTimeTrackEntity saved = asyncSaverService.saveEntityInAsyncMode(forSave);
+                log.info("Сохраненная сущность: {}", saved.toString());
+            }
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
         }
     }
 }

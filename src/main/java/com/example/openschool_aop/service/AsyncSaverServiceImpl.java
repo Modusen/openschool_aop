@@ -18,10 +18,14 @@ public class AsyncSaverServiceImpl implements AsyncSaverService {
     MethodRepository methodRepository;
 
     @Override
-    public MethodTimeTrackEntity saveEntityInAsyncMode(MethodTimeTrackEntity entity) throws ExecutionException, InterruptedException {
-        return CompletableFuture.supplyAsync(() -> {
-            log.info("Сохраняем запись в асинхронном режиме {}", entity.toString());
-            return methodRepository.save(entity);
-        }).get();
+    public MethodTimeTrackEntity saveEntityInAsyncMode(MethodTimeTrackEntity entity){
+        try {
+            return CompletableFuture.supplyAsync(() -> {
+                log.info("Сохраняем запись в асинхронном режиме {}", entity.toString());
+                return methodRepository.save(entity);
+            }).get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

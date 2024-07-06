@@ -8,5 +8,5 @@ import java.util.concurrent.ExecutionException;
 @Service
 public interface AsyncSaverService {
 
-    public MethodTimeTrackEntity saveEntityInAsyncMode(MethodTimeTrackEntity entity) throws ExecutionException, InterruptedException;
+    public MethodTimeTrackEntity saveEntityInAsyncMode(MethodTimeTrackEntity entity);
 }
